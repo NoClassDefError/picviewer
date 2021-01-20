@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>PicView</title>
+    <script th:inline="javascript">
+        var image = [[${fileNames}]];
+        var current = [[${current}]];
+        window.onload = function () {
+            var index = image.indexOf(current);//图片下标
+            console.log(image);
+            console.log(index);
+            document.getElementById("left").onclick = function () {
+                if (index <= 0) index = image.length - 1;
+                else index--;
+                flushImg(index)
+            };
+            document.getElementById("right").onclick = function () {
+                if (index >= image.length - 1) index = 0;
+                else index++;
+                flushImg(index)
+            }
+        };
+
+        function flushImg(index) {
+            // document.getElementById("frame").style.backgroundImage = 'url(http://localhost:8888/picviewer/static/' + image[index] + ')';
+            console.log(image[index]);
+            // document.getElementById("img").src = 'http://192.168.0.107:8888/picviewer/static/' + image[index];
+            document.getElementById("img").src = [[${contextPath+url}]] + "/" + image[index];
+        }
+    </script>
+    <style th:inline="css">
+        body {
+            margin: 0;
+        }
+
+        #right {
+            right:0;
+            width: 40%;
+            height: 100%;
+            z-index: 10;
+            position: fixed;
+            /*background-color: #74fffd;*/
+        }
+
+        #left {
+            float: left;
+            width: 40%;
+            height: 100%;
+            position: fixed;
+            z-index: 10;
+            /*background-color: #ff67ff;*/
+        }
+
+        /**panel的宽度受其内部的图片宽度决定*/
+        #panel {
+            position: absolute;
+            /*居中，但不起作用*/
+            vertical-align: middle;
+            /*清除浮动*/
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        #big {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        #img {
+            /*宽度大于屏幕宽度时，与屏幕自适应；小于屏幕宽度时，原大小显示*/
+            width: 100%;
+        }
+
+        #form {
+            position:relative;
+            left: 50%;
+        }
+    </style>
+</head>
+<body>
+<div id="big">
+
+    <div id="panel">
+        <div id="right"></div>
+        <div id="left"></div>
+        <!--        <img id="img" th:src="@{'http://192.168.0.107:8888/picviewer/static/'+${current}}" alt="notfound"/>-->
+        <!--        此处url指的是asdf 这样的根文件夹名称，在模板翻译时会自动被加上/picviewer/-->
+        <img id="img" th:src="@{${url}+'/'+${current}}" alt="notfound"/>
+        <form th:action="${contextPath}" id="form">
+            <input type="submit" value="返回">
+        </form>
+    </div>
+</div>
+</body>
+</html>

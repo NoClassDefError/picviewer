@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--    宽度自适应-->
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>File List</title>
+</head>
+<body>
+<div>
+    <div>
+        当前查看路径为：<label th:text="${defaultDir}"></label>
+        <p>
+            更新路径：
+        <form th:action="${contextPath}+'/changeDir'" method="post">
+            <input th:value="${dir1}" type="radio" name="dir" th:text="${dir1}"><p></p>
+            <input th:value="${dir2}" type="radio" name="dir" th:text="${dir2}"><p></p>
+            <input th:value="${dir3}" type="radio" name="dir" th:text="${dir3}"><p></p>
+            <input th:value="${dir4}" type="radio" name="dir" th:text="${dir4}"><p></p>
+            <input th:value="${dir5}" type="radio" name="dir" th:text="${dir5}"><p></p>
+            <input th:value="${dir6}" type="radio" name="dir" th:text="${dir6}"><p></p>
+            <input type="submit" value="更新"><p></p>
+        </form>
+    </div>
+    <table>
+        <tr>
+            <td><h4>fileList</h4></td>
+        </tr>
+        <tr th:each="fileName:${fileNames}">
+            <td>
+                <a th:text="${fileName}" th:href="@{'/view?name='+${fileName}}"></a>
+<!--                <img th:src=""/>-->
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
